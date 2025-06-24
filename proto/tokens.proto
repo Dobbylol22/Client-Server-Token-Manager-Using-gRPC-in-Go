@@ -1,0 +1,61 @@
+
+/* server will return the response in JSON format to the client.
+For this to work out we need to create a proto file.
+This is essentially a stub which tells go how it should encode and decode the various pieces of the data.
+It is language neutral and also we can think of them like XML file or JSON file.
+*/
+
+// We need to define the syntax that we want to use and the latest version of the protocol buffer syntax is called.
+syntax = "proto3";
+
+option go_package = "gotokens.com/proto";
+
+// we need to define the package for this particular file because, we are actually generating a module based of this file that we are writing.
+package server;
+
+// define a service, followed by the name of the service. 
+service TokenManager {
+  rpc Create (CreateRequest) returns (CreateReply) {} //remote procedure call functions(rpc) will call on our data.
+  rpc Write (WriteRequest) returns (WriteReply) {}
+  rpc Read (ReadRequest) returns (ReadReply) {}
+  rpc Drop (DropRequest) returns (DropReply) {}
+}
+
+// CreateRequest message is the data structure. When we send the request from the client, below format is that we want to serialize   
+message CreateRequest {
+  string id = 1; //these numbers just denote what size these data types should be when they get serialized.
+}
+
+message CreateReply {
+  string message = 1;
+}
+
+message WriteRequest {
+  string id = 1;
+  string name = 2;
+  uint64 low = 3;
+  uint64 mid = 4;
+  uint64 high = 5;
+}
+
+message WriteReply {
+  string message = 1;
+  uint64 partial = 2;
+}
+
+message ReadRequest {
+  string id = 1;
+}
+
+message ReadReply {
+  string message = 1;
+  uint64 final = 2;
+}
+
+message DropRequest {
+  string id = 1;
+}
+
+message DropReply {
+  string message = 1;
+}
